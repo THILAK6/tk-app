@@ -1,7 +1,6 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Live } from "./Live";
-import theme from "../lib/theme";
 
 export const LeftPanel = () => {
   return (
