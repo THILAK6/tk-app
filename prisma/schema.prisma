@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Fault {
+  id          String    @id @default(cuid())
+  date        DateTime
+  refRoll     String
+  faultLength Float
+  time        DateTime
+  faultTypeId String
+  remarks     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  version     Int      @default(1)
+  roll        Roll      @relation(fields: [refRoll], references: [id], onDelete: Cascade)
+  faultType   FaultType @relation(fields: [faultTypeId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id        String @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  version   Int      @default(1)
+}
+
+model Customer {
+  id        String @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  version   Int      @default(1)
+  rolls     Roll[]
+}
+
+model Machine {
+  id        String @id @default(cuid())
+  machine   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  version   Int      @default(1)
+  rolls     Roll[]
+}
+
+model Conclusion {
+  id         String @id @default(cuid())
+  conclusion String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  version    Int      @default(1)
+  rolls      Roll[]
+}
+
+model InspectedType {
+  id            String @id @default(cuid())
+  inspectedType String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  version       Int      @default(1)
+  rolls         Roll[]
+}
+
+model Roll {
+  id                  String @id @default(cuid())
+  siNo                String
+  inspectedBy1        String
+  inspectedBy2        String
+  inspectedTypeId     String
+  inspectedQnty       Float
+  rollNo              String
+  inspectionMachineId String
+  shift              String
+  skipNo             String
+  prdn               String
+  startTime          DateTime
+  endTime            DateTime
+  packedBy1          String
+  packedBy2          String
+  note               String?
+  customerId         String
+  conclusionId       String
+  remarks            String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  version            Int      @default(1)
+  faults             Fault[]
+  customer          Customer       @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  inspectedType     InspectedType  @relation(fields: [inspectedTypeId], references: [id], onDelete: Cascade)
+  machine          Machine        @relation(fields: [inspectionMachineId], references: [id], onDelete: Cascade)
+  conclusion       Conclusion     @relation(fields: [conclusionId], references: [id], onDelete: Cascade)
+}
+
+model FaultType {
+  id        String @id @default(cuid())
+  faultType String
+  faultCode String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  version   Int      @default(1)
+  faults    Fault[]
+}
