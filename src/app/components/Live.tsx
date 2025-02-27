@@ -1,38 +1,13 @@
 "use client";
 
 import { Box, Card, CardContent, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import theme from "../lib/theme";
+import { memo } from "react";
+import { useLiveData } from "./providers/LiveDataContext";
 
-type LiveData = {
-  currentValue: number;
-  currentMeterPerMinute: number;
-};
-
-export const Live: React.FC = () => {
-  const [liveData, setLiveData] = useState<LiveData>({
-    currentValue: 0,
-    currentMeterPerMinute: 0,
-  });
-  const hostUrl = process.env.NEXT_PUBLIC_HOST!;
-
-  useEffect(() => {
-    const eventSource = new EventSource(hostUrl + "/api/mqtt");
-
-    eventSource.onmessage = (event) => {
-      console.log("Received message:", event.data);
-      setLiveData(JSON.parse(event.data));
-    };
-
-    eventSource.onerror = (error) => {
-      console.error("EventSource error:", error);
-      eventSource.close();
-    };
-
-    return () => {
-      eventSource.close();
-    };
-  }, []);
+const Live: React.FC = () => {
+  const { liveData, isConnected } = useLiveData();
+  console.log(isConnected);
 
   return (
     <Card sx={{ bgcolor: theme.palette.secondary.main, padding: 2 }}>
@@ -73,3 +48,6 @@ export const Live: React.FC = () => {
     </Card>
   );
 };
+
+Live.displayName = "Live";
+export { Live };
