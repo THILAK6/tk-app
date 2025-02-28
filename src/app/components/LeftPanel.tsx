@@ -1,8 +1,24 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Live } from "./Live";
+import { Roll } from "../domain/roll";
 
-export const LeftPanel = () => {
+type LeftPanelProps = {
+  currentRoll: null | Roll;
+};
+
+export const LeftPanel = ({ currentRoll }: LeftPanelProps) => {
+  const showRollInfo = () => {
+    const textToShow = currentRoll
+      ? `Current Roll No: ${currentRoll.rollNo}`
+      : "No Roll Selected";
+    return (
+      <Typography variant="body2" color="text.secondary" align="center">
+        {textToShow}
+      </Typography>
+    );
+  };
+
   return (
     <Box
       component="section"
@@ -42,9 +58,7 @@ export const LeftPanel = () => {
               <Live />
             </CardContent>
             <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
-              <Typography color="text.primary" align="center">
-                Current Roll No: 12345
-              </Typography>
+              {showRollInfo()}
             </CardContent>
           </Card>
         </Grid>

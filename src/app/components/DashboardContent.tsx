@@ -3,8 +3,17 @@ import { LeftPanel } from "./LeftPanel";
 import { RightTopPanel } from "./RightTopPanel";
 import { RightBottomPanel } from "./RightBottomPanel";
 import { NotificationBar } from "./NotificationBar";
+import { getCurrentRoll } from "../lib/store";
 
 export const DashboardContent = () => {
+  const currentRoll = getCurrentRoll();
+
+  const showNotificationBar = () => {
+    if (!currentRoll) {
+      return <NotificationBar />;
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -16,7 +25,7 @@ export const DashboardContent = () => {
         overflow: "hidden",
       }}
     >
-      <NotificationBar/>
+      {showNotificationBar()}
       <Box
         sx={{
           display: "flex",
@@ -26,7 +35,7 @@ export const DashboardContent = () => {
           overflow: "hidden",
         }}
       >
-        <LeftPanel />
+        <LeftPanel currentRoll={currentRoll}/>
         <Box
           sx={{
             flex: 1,
