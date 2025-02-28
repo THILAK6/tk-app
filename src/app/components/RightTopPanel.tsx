@@ -1,6 +1,10 @@
-import { Box } from "@mui/material";
+'use client'
+import { Box, Button } from "@mui/material";
+import { useLiveData } from "./providers/LiveDataContext";
 
 export const RightTopPanel = () => {
+  const { liveDataRef, isConnected } = useLiveData(); 
+
   return (
     <Box
       component="section"
@@ -17,6 +21,7 @@ export const RightTopPanel = () => {
       }}
     >
       Right Top Panel Content
+      <Button></Button>
     </Box>
   );
 };

@@ -12,8 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { DashboardLayout } from "../components/layout/DashboardLayout";
-import { RollEntry } from "../domain/roll";
+import { DashboardLayout } from "../../components/layout/DashboardLayout";
+import { RollEntry } from "../../domain/roll";
 import { Customer, InspectedType, Machine, Conclusion, User } from "@prisma/client";
 
 export default function NewRoll() {
@@ -46,7 +46,7 @@ export default function NewRoll() {
   useEffect(() => {
     async function fetchData() {
       const hostUrl = process.env.NEXT_PUBLIC_HOST!;
-      const response = await fetch(hostUrl + "/api/rolls");
+      const response = await fetch(hostUrl + "/api/subject");
       const data = await response.json();
       setCustomers(data.customers);
       setInspectedTypes(data.inspectedTypes);
@@ -99,9 +99,13 @@ export default function NewRoll() {
     }
   };
 
+  const formatDateTime = (date: Date) => {
+    return date.toISOString().slice(0, 16);
+  };
+
   return (
-    <DashboardLayout>
-      <Container maxWidth="lg">
+    // <DashboardLayout>
+      <Container>
         <Typography variant="h4">New Roll Entry</Typography>
         <Card>
           <Box component="form" onSubmit={handleSubmit} noValidate>
@@ -295,7 +299,7 @@ export default function NewRoll() {
                       label="Start Time"
                       name="startTime"
                       type="datetime-local"
-                      value={formData.startTime}
+                      value={formatDateTime(formData.startTime)}
                       onChange={handleChange}
                       fullWidth
                       required
@@ -309,7 +313,7 @@ export default function NewRoll() {
                       label="End Time"
                       name="endTime"
                       type="datetime-local"
-                      value={formData.endTime}
+                      value={formatDateTime(formData.endTime)}
                       onChange={handleChange}
                       fullWidth
                       required
@@ -450,6 +454,6 @@ export default function NewRoll() {
           </Box>
         </Card>
       </Container>
-    </DashboardLayout>
+    // </DashboardLayout>
   );
 }
