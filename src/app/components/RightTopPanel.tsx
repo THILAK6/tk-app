@@ -132,8 +132,10 @@ export const RightTopPanel = ({
                 <TableRow>
                   <TableCell>{lastFault.faultLength}</TableCell>
                   <TableCell>
-                    {faultTypes.find((ft) => ft.id === lastFault.faultTypeId)
-                      ?.faultType}
+                    {
+                      faultTypes.find((ft) => ft.id === lastFault.faultTypeId)
+                        ?.faultType
+                    }
                   </TableCell>
                   <TableCell>{lastFault.date.toLocaleString()}</TableCell>
                 </TableRow>
