@@ -53,8 +53,41 @@ export type RollToShow = {
   startTime: Date;
   customerName: string;
   conclusionName: string;
-  machineName: string; 
-}
+  machineName: string;
+};
+
+export type CurrentRoll = {
+  currentRollId: string;
+};
+
+export const getRoll = async (
+  prisma: PrismaClient,
+  rollId: string
+): Promise<Roll | null> => {
+  return await prisma.roll.findFirst({
+    where: {
+      id: rollId,
+    },
+  });
+};
+
+const clearCurrentRoll = async (prisma: PrismaClient) => {
+  await prisma.currentRoll.deleteMany();
+};
+
+export const getCurrentRoll = async (
+  prisma: PrismaClient
+): Promise<Roll | null> => {
+  const currentRollId = await prisma.currentRoll.findFirst();
+  return getRoll(prisma, currentRollId?.rollId ?? "");
+};
+
+export const setCurrentRoll = async (prisma: PrismaClient, rollId: string) => {
+  await clearCurrentRoll(prisma);
+  await prisma.currentRoll.create({
+    data: { rollId },
+  });
+};
 
 export const createRoll = async (
   rollEntry: RollEntry,
@@ -65,7 +98,9 @@ export const createRoll = async (
   });
 };
 
-export const getRollsToShow = async (prisma: PrismaClient): Promise<Array<RollToShow>> => {
+export const getRollsToShow = async (
+  prisma: PrismaClient
+): Promise<Array<RollToShow>> => {
   const rolls = await prisma.roll.findMany({
     select: {
       id: true,
@@ -88,6 +123,9 @@ export const getRollsToShow = async (prisma: PrismaClient): Promise<Array<RollTo
         },
       },
     },
+    orderBy: {
+      startTime: "desc",
+    },
   });
 
   return rolls.map((roll) => ({
@@ -99,5 +137,4 @@ export const getRollsToShow = async (prisma: PrismaClient): Promise<Array<RollTo
     conclusionName: roll.conclusion.conclusion,
     machineName: roll.machine.machine,
   }));
-  
-}
+};

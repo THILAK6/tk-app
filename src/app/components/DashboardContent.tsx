@@ -3,10 +3,16 @@ import { LeftPanel } from "./LeftPanel";
 import { RightTopPanel } from "./RightTopPanel";
 import { RightBottomPanel } from "./RightBottomPanel";
 import { NotificationBar } from "./NotificationBar";
-import { getCurrentRoll } from "../lib/store";
+import { getCurrentRoll } from "../domain/roll";
+import { prismaClient } from "../lib/dbClient";
+import { getAllFaultTypes } from "../domain/fault";
 
-export const DashboardContent = () => {
-  const currentRoll = getCurrentRoll();
+export const DashboardContent = async () => {
+  const prisma = prismaClient();
+  const currentRoll = await getCurrentRoll(prisma);
+  const faultTypes = await getAllFaultTypes(prisma);
+
+  console.log("currentRoll", currentRoll?.rollNo);
 
   const showNotificationBar = () => {
     if (!currentRoll) {
@@ -35,7 +41,7 @@ export const DashboardContent = () => {
           overflow: "hidden",
         }}
       >
-        <LeftPanel currentRoll={currentRoll}/>
+        <LeftPanel currentRoll={currentRoll} />
         <Box
           sx={{
             flex: 1,
@@ -45,7 +51,7 @@ export const DashboardContent = () => {
             overflow: "hidden",
           }}
         >
-          <RightTopPanel />
+          <RightTopPanel currentRoll={currentRoll} faultTypes={faultTypes} />
           <RightBottomPanel />
         </Box>
       </Box>
