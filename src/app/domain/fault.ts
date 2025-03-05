@@ -41,3 +41,17 @@ export const getAllFaultTypes = async (
 ): Promise<FaultType[]> => {
   return await prisma.faultType.findMany();
 };
+
+export const getLastFaultForRoll = async (
+  prisma: PrismaClient,
+  rollId: string
+): Promise<Fault | null> => {
+  return await prisma.fault.findFirst({
+    where: {
+      refRoll: rollId,
+    },
+    orderBy: {
+      date: "desc",
+    },
+  });
+};

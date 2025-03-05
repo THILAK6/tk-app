@@ -29,18 +29,22 @@ import { RemoveRedEye } from "@mui/icons-material";
 type RightTopPanelProps = {
   currentRoll: null | Roll;
   faultTypes: FaultType[];
+  lastFaultProp: FaultWithoutMeta | null;
 };
 
 export const RightTopPanel = ({
   currentRoll,
-  faultTypes: faultTypes,
+  faultTypes,
+  lastFaultProp,
 }: RightTopPanelProps) => {
   const { liveDataRef } = useLiveData();
   const [faultType, setFaultType] = useState<string>(
     faultTypes.length > 0 ? faultTypes[0].faultType : ""
   );
 
-  const [lastFault, setLastFault] = useState<FaultWithoutMeta | null>(null);
+  const [lastFault, setLastFault] = useState<FaultWithoutMeta | null>(
+    lastFaultProp
+  );
   const [remarks, setRemarks] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
