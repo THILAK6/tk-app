@@ -23,7 +23,7 @@ import AddIcon from "@mui/icons-material/Add";
 import SelectAllIcon from "@mui/icons-material/SelectAll";
 import Link from "next/link";
 import { FaultWithoutMeta, FaultType } from "../domain/fault";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RemoveRedEye } from "@mui/icons-material";
 
 type RightTopPanelProps = {
@@ -42,11 +42,13 @@ export const RightTopPanel = ({
     faultTypes.length > 0 ? faultTypes[0].faultType : ""
   );
 
-  const [lastFault, setLastFault] = useState<FaultWithoutMeta | null>(
-    lastFaultProp
-  );
+  const [lastFault, setLastFault] = useState<FaultWithoutMeta | null>(null);
   const [remarks, setRemarks] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLastFault(lastFaultProp);
+  }, [lastFaultProp]);
 
   const addFault = async () => {
     if (!currentRoll) return;
