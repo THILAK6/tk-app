@@ -55,3 +55,29 @@ export const getLastFaultForRoll = async (
     },
   });
 };
+
+export type FaultCount = {
+  name: string;
+  value: number;
+};
+
+export const getFaultsCount = async (
+  prisma: PrismaClient
+): Promise<FaultCount[]> => {
+  const faults = await prisma.fault.groupBy({
+    by: ["faultTypeId"],
+    _count: { faultTypeId: true },
+  });
+
+  const faultTypes = await prisma.faultType.findMany({
+    select: { id: true, faultType: true },
+  });
+
+  return faults.map((fault) => {
+    const faultType = faultTypes.find((ft) => ft.id === fault.faultTypeId);
+    return {
+      name: faultType ? faultType.faultType : "Unknown",
+      value: fault._count.faultTypeId,
+    };
+  });
+};

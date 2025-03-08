@@ -17,6 +17,7 @@
     "@mui/icons-material": "^6.4.3",
     "@mui/material": "^6.4.3",
     "@prisma/client": "^6.3.1",
+    "chart.js": "^4.4.8",
     "mqtt": "^5.10.3",
     "next": "15.1.6",
     "prisma": "^6.3.1",
@@ -26,7 +27,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
-    "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
@@ -35,6 +35,6 @@
     "typescript": "^5"
   },
   "prisma": {
-  "seed": "ts-node prisma/seed.ts"
-}
+    "seed": "ts-node prisma/seed.ts"
+  }
 }

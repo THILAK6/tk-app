@@ -2,12 +2,17 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Live } from "./Live";
 import { Roll } from "../domain/roll";
+import { getFaultsCount } from "../domain/fault";
+import { prismaClient } from "../lib/dbClient";
+import { FaultTypeDistributionChart } from "./FaultTypeDistributionChart";
 
 type LeftPanelProps = {
   currentRoll: null | Roll;
 };
 
-export const LeftPanel = ({ currentRoll }: LeftPanelProps) => {
+export const LeftPanel = async ({ currentRoll }: LeftPanelProps) => {
+  const prisma = prismaClient();
+  const faultsCount = await getFaultsCount(prisma);
   const showRollInfo = () => {
     const textToShow = currentRoll
       ? `Current Roll No: ${currentRoll.rollNo}`
@@ -35,7 +40,7 @@ export const LeftPanel = ({ currentRoll }: LeftPanelProps) => {
     >
       <Grid
         container
-        spacing={2}
+        spacing={1}
         sx={{ height: "100%", margin: 0, width: "100%" }}
       >
         <Grid
@@ -62,46 +67,17 @@ export const LeftPanel = ({ currentRoll }: LeftPanelProps) => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sx={{ pt: "16px !important" }}>
-          <Typography variant="h6" color="text.primary">
-            Heading for the second card
-          </Typography>
-        </Grid>
-        <Grid container item xs={12} spacing={2} sx={{ height: "50%" }}>
-          {[1, 2].map((cardNumber) => (
-            <Grid
-              key={cardNumber}
-              item
-              xs={6}
-              sx={{
-                height: "100%",
-                paddingTop: "16px !important",
-              }}
-            >
-              <Card
-                elevation={0}
-                sx={{
-                  height: "100%",
-                  bgcolor: "primary.main",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <CardContent sx={{ p: 2, "&:last-child": { pb: 2 } }}>
-                  <Typography variant="h5" color="text.primary">
-                    Card {cardNumber + 1}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: 1 }}
-                  >
-                    This card covers the bottom half.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
+        <Grid container item xs={12} spacing={1} sx={{ height: "54%" }}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              height: "100%",
+              paddingTop: "16px !important",
+            }}
+          >
+            <FaultTypeDistributionChart faultCounts={faultsCount} />
+          </Grid>
         </Grid>
       </Grid>
     </Box>
