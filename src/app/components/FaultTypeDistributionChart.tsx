@@ -52,38 +52,38 @@ export const FaultTypeDistributionChart = ({
       x: {
         grid: {
           display: true,
-          color: "#f5f5f5",
+          color: "#ffffff",
         },
         ticks: {
-          color: "#666",
+          color: "#ffffff",
           font: {
             size: 12,
           },
         },
         border: {
-          color: "#ccc",
+          color: "#ffffff",
         },
       },
       y: {
         grid: {
           display: true,
-          color: "#f5f5f5",
+          color: "#ffffff",
           lineWidth: 1,
           drawTicks: false,
         },
         ticks: {
-          color: "#666",
+          color: "#ffffff",
           font: {
             size: 12,
           },
         },
         border: {
-          color: "#ccc",
+          color: "#ffffff",
         },
         title: {
           display: true,
           text: "Count",
-          color: "#666",
+          color: "#ffffff",
         },
       },
     },
@@ -94,6 +94,7 @@ export const FaultTypeDistributionChart = ({
           font: {
             size: 12,
           },
+          color: "#ffffff",
         },
       },
       tooltip: {
