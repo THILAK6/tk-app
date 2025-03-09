@@ -2,7 +2,6 @@
 
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import theme from "../lib/theme";
-import { memo } from "react";
 import { useLiveData } from "./providers/LiveDataContext";
 
 const Live: React.FC = () => {

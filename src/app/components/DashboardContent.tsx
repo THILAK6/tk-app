@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
-import { LeftPanel } from "./LeftPanel";
 import { RightTopPanel } from "./RightTopPanel";
 import { RightBottomPanel } from "./RightBottomPanel";
 import { NotificationBar } from "./NotificationBar";
 import { getCurrentRoll } from "../domain/roll";
 import { prismaClient } from "../lib/dbClient";
 import { getAllFaultTypes, getLastFaultForRoll } from "../domain/fault";
+import { LiveServer } from "./LiveServer";
 
 export const DashboardContent = async () => {
   const prisma = prismaClient();
@@ -43,25 +43,28 @@ export const DashboardContent = async () => {
           gap: 2,
           minHeight: 0,
           overflow: "hidden",
+          height: "100%",
+          flexDirection: "row"
         }}
       >
-        <LeftPanel currentRoll={currentRoll} />
-        <Box
-          sx={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            minHeight: 0,
-            overflow: "hidden",
-          }}
-        >
-          <RightTopPanel
-            currentRoll={currentRoll}
-            faultTypes={faultTypes}
-            lastFaultProp={lastFaultInRoll}
-          />
-          <RightBottomPanel />
-        </Box>
+        <LiveServer currentRoll={currentRoll} />
+        <RightTopPanel
+          currentRoll={currentRoll}
+          faultTypes={faultTypes}
+          lastFaultProp={lastFaultInRoll}
+        />
+      </Box>
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: 0,
+          overflow: "hidden",
+          height: "100%"
+        }}
+      >
+        <RightBottomPanel />
       </Box>
     </Box>
   );

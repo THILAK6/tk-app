@@ -13,16 +13,6 @@ type LeftPanelProps = {
 export const LeftPanel = async ({ currentRoll }: LeftPanelProps) => {
   const prisma = prismaClient();
   const faultsCount = await getFaultsCount(prisma);
-  const showRollInfo = () => {
-    const textToShow = currentRoll
-      ? `Current Roll No: ${currentRoll.rollNo}`
-      : "No Roll Selected";
-    return (
-      <Typography variant="body2" color="text.secondary" align="center">
-        {textToShow}
-      </Typography>
-    );
-  };
 
   return (
     <Box
@@ -43,7 +33,7 @@ export const LeftPanel = async ({ currentRoll }: LeftPanelProps) => {
         spacing={1}
         sx={{ height: "100%", margin: 0, width: "100%" }}
       >
-        <Grid
+        {/* <Grid
           item
           xs={12}
           sx={{ height: "45%", paddingTop: "16px !important" }}
@@ -66,7 +56,7 @@ export const LeftPanel = async ({ currentRoll }: LeftPanelProps) => {
               {showRollInfo()}
             </CardContent>
           </Card>
-        </Grid>
+        </Grid> */}
         <Grid container item xs={12} spacing={1} sx={{ height: "54%" }}>
           <Grid
             item

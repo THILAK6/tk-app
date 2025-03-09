@@ -119,6 +119,7 @@ export const RightTopPanel = ({
           justifyContent: "center",
           alignItems: "center",
           height: "100%",
+          p: 2,
         }}
       >
         <Box>
@@ -211,10 +212,9 @@ export const RightTopPanel = ({
     <Box
       component="section"
       sx={{
-        height: "50%",
+        height: "100%",
         width: "100%",
         bgcolor: "background.paper",
-        p: 2,
         borderRadius: 2,
         overflow: "hidden",
         display: "flex",
